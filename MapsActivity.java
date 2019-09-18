@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double temperature = 0.0;
         double humidity = 0.0;
         double windspeed = 0.0;
-        double precipIntensity = 0.0;
+        double precipProbability = 0.0;
         String precipitation = "";
         //JSONParser parser = new JSONParser();
         try {
@@ -85,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             json = json.substring(json.indexOf('|') + 1, json.length());
             windspeed = Double.parseDouble(json.substring(0, json.indexOf('|')-1));
             json = json.substring(json.indexOf('|') + 1, json.length());
-            precipIntensity = Double.parseDouble(json.substring(0, json.indexOf('|')-1));
+            precipProbability = Double.parseDouble(json.substring(0, json.indexOf('|')-1));
             json = json.substring(json.indexOf('|') + 1, json.length());
             precipitation = json;
         } catch (InterruptedException e){
@@ -100,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions marker = new MarkerOptions();
         mMap.addMarker(marker.position(position));
         TextView tv = (TextView)findViewById(R.id.text);
-        tv.setText("Temperature: " + temperature + "\n" + "Humidity: " + humidity + "\n" + "Windspeed: " + windspeed + "\n" + "Precipitation Intensity: " + precipIntensity + "\n" + "Precipitation: " + precipitation);
+        tv.setText("Temperature: " + temperature + "\n" + "Humidity: " + humidity + "\n" + "Windspeed: " + windspeed + "\n" + "Precipitation Probability: " + precipProbability + "\n" + "Precipitation Type: " + precipitation);
 
     }
 }
@@ -116,7 +116,7 @@ class Coordinates extends AsyncTask<String, Void, String> {
         double temperature = 0.0;
         double humidity = 0.0;
         double windspeed = 0.0;
-        double precipIntensity = 0.0;
+        double precipProbability = 0.0;
         String precipitation = "";
         String fullAddr = addr[0];
         URL url = null;
@@ -149,8 +149,8 @@ class Coordinates extends AsyncTask<String, Void, String> {
             temperature = weatherJson.getJSONObject("currently").getDouble("temperature");
             humidity = weatherJson.getJSONObject("currently").getDouble("humidity");
             windspeed = weatherJson.getJSONObject("currently").getDouble("windSpeed");
-            precipIntensity = weatherJson.getJSONObject("currently").getDouble("precipIntensity");
-            if(precipIntensity != 0.0){
+            precipProbability = weatherJson.getJSONObject("currently").getDouble("precipProbability");
+            if(precipProbability != 0.0){
                 precipitation = weatherJson.getJSONObject("currently").getString("precipType");
             }
         }
@@ -164,7 +164,7 @@ class Coordinates extends AsyncTask<String, Void, String> {
             t.printStackTrace();
         }
 
-        return ((Double)latitude).toString() + "|" + ((Double)longitude).toString() + "|" + ((Double)temperature).toString() + "|" + ((Double)humidity).toString() + "|" + ((Double)windspeed).toString() + "|" + precipitation + "|" + precipIntensity;
+        return ((Double)latitude).toString() + "|" + ((Double)longitude).toString() + "|" + ((Double)temperature).toString() + "|" + ((Double)humidity).toString() + "|" + ((Double)windspeed).toString() + "|" + precipitation + "|" + precipProbability;
     }
 }
 //end of Max driving
